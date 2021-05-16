@@ -1,9 +1,9 @@
 #ifndef BIGINT_H
 #define BIGINT_H
 
-#include <gmpxx.h>
 #include "types.h"
 #include "rng.h"
+#include <gmpxx.h>
 
 
 namespace crypto

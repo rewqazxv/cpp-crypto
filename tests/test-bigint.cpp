@@ -4,9 +4,7 @@
 using namespace crypto;
 
 #include <map>
-#include <vector>
 using std::map;
-using std::vector;
 
 
 TEST(BigInt, size)
@@ -140,18 +138,17 @@ TEST(BigInt, is_prime)
     }
 }
 
-// consume too much time
-// TEST(BigInt, generate_prime)
-// {
-//     int bit_len = 2155;
-//     BigInt x = bigint::generate_prime(bit_len);
-//     BigInt y = bigint::generate_prime(bit_len);
-//     ASSERT_EQ(bit_len, bigint::size(x));
-//     ASSERT_EQ(bit_len, bigint::size(y));
-//     ASSERT_TRUE(bigint::is_prime(x));
-//     ASSERT_TRUE(bigint::is_prime(y));
-//     ASSERT_NE(x, y);
-// }
+TEST(BigInt, generate_prime)
+{
+    int bit_len = 2155;
+    BigInt x = bigint::generate_prime(bit_len);
+    BigInt y = bigint::generate_prime(bit_len);
+    ASSERT_EQ(bit_len, bigint::size(x));
+    ASSERT_EQ(bit_len, bigint::size(y));
+    ASSERT_TRUE(bigint::is_prime(x));
+    ASSERT_TRUE(bigint::is_prime(y));
+    ASSERT_NE(x, y);
+}
 
 TEST(BigInt, mod_inverse)
 {

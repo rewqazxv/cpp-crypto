@@ -4,21 +4,20 @@
 using namespace crypto;
 
 
-// consume too much time
-// TEST(rsa, keygen)
-// {
-//     ASSERT_THROW(rsa::keygen(2047), std::invalid_argument);
+TEST(rsa, keygen)
+{
+    ASSERT_THROW(rsa::keygen(2047), std::invalid_argument);
 
-//     int key_bit_length = 2568;
-//     auto keys1 = rsa::keygen(key_bit_length);
-//     int real_size = bigint::size(keys1.public_key.mod);
-//     ASSERT_EQ(keys1.public_key.exp, 65537);
-//     ASSERT_TRUE(real_size == key_bit_length || real_size == key_bit_length - 1);
-//     ASSERT_EQ(keys1.public_key.mod, keys1.private_key.mod);
+    int key_bit_length = 2568;
+    auto keys1 = rsa::keygen(key_bit_length);
+    int real_size = bigint::size(keys1.public_key.mod);
+    ASSERT_EQ(keys1.public_key.exp, 65537);
+    ASSERT_TRUE(real_size == key_bit_length || real_size == key_bit_length - 1);
+    ASSERT_EQ(keys1.public_key.mod, keys1.private_key.mod);
 
-//     auto keys2 = rsa::keygen(key_bit_length);
-//     ASSERT_NE(keys2.public_key.mod, keys1.public_key.mod);
-// }
+    auto keys2 = rsa::keygen(key_bit_length);
+    ASSERT_NE(keys2.public_key.mod, keys1.public_key.mod);
+}
 
 TEST(rsa, rsa)
 {

@@ -1,11 +1,10 @@
 #include "crypto/types.h"
 
+#include "crypto/bigint.h"
+
 #include <cctype>
 #include <iomanip>
-#include <cstdlib>
 using namespace std;
-
-#include "crypto/bigint.h"
 
 
 namespace crypto
