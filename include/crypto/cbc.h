@@ -14,12 +14,12 @@ template<typename Method, typename PaddingMode = padding::PKCS7>
 class CbcMode
 {
 public:
-    static const int BLOCK_SIZE = Method::BLOCK_SIZE;
+    static constexpr int BLOCK_SIZE = Method::BLOCK_SIZE;
     static constexpr SignedSize output_buffer_size(const SignedSize input_size)
     { return input_size + 2 * BLOCK_SIZE; }
 
     template <typename...MethodArgs>
-    CbcMode(
+    explicit CbcMode(
         const Byte iv_block[BLOCK_SIZE],
         MethodArgs &&...method_args
     ): method(std::forward<MethodArgs>(method_args)...), padding_mode(BLOCK_SIZE)
@@ -36,13 +36,13 @@ public:
     virtual SignedSize finish(Byte *output, SignedSize output_size) = 0;
     virtual SignedSize finish(const Byte *input, SignedSize input_size, Byte *output, SignedSize output_size)
     {
-        SignedSize writed = use(input, input_size, output, output_size);
-        writed += finish(output + writed, output_size - writed);
-        return writed;
+        SignedSize written = use(input, input_size, output, output_size);
+        written += finish(output + written, output_size - written);
+        return written;
     }
 
-    class Encryptor;
-    class Decryptor;
+    class Encrypter;
+    class Decrypter;
 
 protected:
     const Method method;
@@ -53,7 +53,7 @@ protected:
 
 
 template<typename Method, typename PaddingMode>
-class CbcMode<Method, PaddingMode>::Encryptor: public CbcMode<Method, PaddingMode>
+class CbcMode<Method, PaddingMode>::Encrypter: public CbcMode<Method, PaddingMode>
 {
     void cbc_encrypt(Byte *block, const Byte *xor_block)
     {
@@ -111,11 +111,11 @@ public:
         cbc_encrypt(output, saved_xor_block.data());
         return BLOCK_SIZE;
     }
-}; // template class CbcMode::Encryptor
+}; // template class CbcMode::Encrypter
 
 
 template<typename Method, typename PaddingMode>
-class CbcMode<Method, PaddingMode>::Decryptor: public CbcMode<Method, PaddingMode>
+class CbcMode<Method, PaddingMode>::Decrypter: public CbcMode<Method, PaddingMode>
 {
     void cbc_decrypt(Byte *block, const Byte *xor_block)
     {
@@ -173,7 +173,7 @@ public:
         cbc_decrypt(output, saved_xor_block.data());
         return padding_mode.unpad(output);
     }
-}; // template class CbcMode::Decryptor
+}; // template class CbcMode::Decrypter
 
 } // namespace crypto
 

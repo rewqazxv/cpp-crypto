@@ -15,7 +15,7 @@ TEST(aes_128_cbc_decrypt, 0)
     Bytes expected = ""_bytes;
     Bytes key = "long time no see"_bytes;
     Bytes iv = "abcdefghijklmnop"_bytes;
-    auto aes_cbc = CbcMode<AES>::Decryptor(iv.data(), key);
+    auto aes_cbc = CbcMode<AES>::Decrypter(iv.data(), key);
 
     Bytes res(aes_cbc.output_buffer_size(raw.size()));
     SignedSize sz = aes_cbc.use(raw.data(), raw.size(), res.data(), res.size());
@@ -31,7 +31,7 @@ TEST(aes_128_cbc_decrypt, 1)
     Bytes expected = "1"_bytes;
     Bytes key = "long time no see"_bytes;
     Bytes iv = "abcdefghijklmnop"_bytes;
-    auto aes_cbc = CbcMode<AES>::Decryptor(iv.data(), key);
+    auto aes_cbc = CbcMode<AES>::Decrypter(iv.data(), key);
 
     Bytes res(aes_cbc.output_buffer_size(raw.size()));
     SignedSize sz = aes_cbc.use(raw.data(), raw.size(), res.data(), res.size());
@@ -47,7 +47,7 @@ TEST(aes_128_cbc_decrypt, 16)
     Bytes expected = "vvwqeasdcveehytj"_bytes;
     Bytes key = "long time no see"_bytes;
     Bytes iv = "abcdefghijklmnop"_bytes;
-    auto aes_cbc = CbcMode<AES>::Decryptor(iv.data(), key);
+    auto aes_cbc = CbcMode<AES>::Decrypter(iv.data(), key);
 
     Bytes res(aes_cbc.output_buffer_size(raw.size()));
     res.resize(aes_cbc.finish(raw.data(), raw.size(), res.data(), res.size()));
@@ -60,7 +60,7 @@ TEST(aes_128_cbc_decrypt, long_one_time)
     Bytes expected = "In cryptography, a block cipher mode of operation is an algorithm that uses a block cipher to provide information security such as confidentiality or authenticity. A block cipher by itself is only suitable for the secure cryptographic transformation (encryption or decryption) of one fixed-length group of bits called a block. A mode of operation describes how to repeatedly apply a cipher's single-block operation to securely transform amounts of data larger than a block."_bytes;
     Bytes key = "long time no see"_bytes;
     Bytes iv = "abcdefghijklmnop"_bytes;
-    CbcMode<AES>::Decryptor derived(iv.data(), key);
+    CbcMode<AES>::Decrypter derived(iv.data(), key);
     CbcMode<AES> &aes_cbc = derived;
 
     Bytes res(aes_cbc.output_buffer_size(raw.size()));
@@ -74,7 +74,7 @@ TEST(aes_128_cbc_decrypt, long_separately)
     Bytes expected = "In cryptography, a block cipher mode of operation is an algorithm that uses a block cipher to provide information security such as confidentiality or authenticity. A block cipher by itself is only suitable for the secure cryptographic transformation (encryption or decryption) of one fixed-length group of bits called a block. A mode of operation describes how to repeatedly apply a cipher's single-block operation to securely transform amounts of data larger than a block."_bytes;
     Bytes key = "long time no see"_bytes;
     Bytes iv = "abcdefghijklmnop"_bytes;
-    CbcMode<AES>::Decryptor derived(iv.data(), key);
+    CbcMode<AES>::Decrypter derived(iv.data(), key);
     CbcMode<AES> &aes_cbc = derived;
 
     const Byte *input_buffer = raw.data();
@@ -86,8 +86,8 @@ TEST(aes_128_cbc_decrypt, long_separately)
 
     for (Byte *input_end = raw.data() + raw.size(); input_buffer < input_end; input_buffer += input_buffer_size) {
         SignedSize data_size = min(input_buffer_size, input_end - input_buffer);
-        SignedSize writed = aes_cbc.use(input_buffer, data_size, output_buffer.data(), output_buffer.size());
-        res.insert(res.end(), output_buffer.data(), output_buffer.data() + writed);
+        SignedSize written = aes_cbc.use(input_buffer, data_size, output_buffer.data(), output_buffer.size());
+        res.insert(res.end(), output_buffer.data(), output_buffer.data() + written);
     }
     output_buffer.resize(aes_cbc.finish(output_buffer.data(), output_buffer.size()));
     res.insert(res.end(), output_buffer.begin(), output_buffer.end());

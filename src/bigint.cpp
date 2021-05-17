@@ -20,9 +20,9 @@ Bytes to_bytes(const BigInt &num, ENDIAN endian)
         throw(std::invalid_argument("the number to be encoded cannot be negative"));
     size_t sz = bigint::size(num, 256);
     Bytes res(sz, 0);
-    size_t writed = 0;
-    mpz_export(res.data(), &writed, endian, 1, 0, 0, num.get_mpz_t());
-    assert(sz == writed || (num == 0 && sz == 1 && writed == 0));
+    size_t written = 0;
+    mpz_export(res.data(), &written, endian, 1, 0, 0, num.get_mpz_t());
+    assert(sz == written || (num == 0 && sz == 1 && written == 0));
     return res;
 }
 
@@ -43,7 +43,7 @@ namespace
 // init a non-cryptographic random BigInt generator
 unique_ptr<gmp_randclass> init_gmp_randclass()
 {
-    static const int SEED_SIZE = 16;
+    static constexpr int SEED_SIZE = 16;
     auto res = make_unique<gmp_randclass>(gmp_randinit_mt);
     res->seed(from_bytes(random::get_bytes(SEED_SIZE)));
     return res;
@@ -52,7 +52,7 @@ unique_ptr<gmp_randclass> init_gmp_randclass()
 
 bool is_prime(const BigInt &n)
 {
-    static const int TEST_ROUND = 100;
+    static constexpr int TEST_ROUND = 100;
     static const BigInt two = 2;
     static auto gmprand = init_gmp_randclass(); // non-cryptographic
 

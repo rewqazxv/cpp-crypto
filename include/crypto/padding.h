@@ -10,7 +10,7 @@ namespace crypto::padding
 struct PKCS7 {
     const int BLOCK_SIZE;
 
-    PKCS7(const int block_size): BLOCK_SIZE(block_size) {}
+    explicit PKCS7(const int block_size): BLOCK_SIZE(block_size) {}
 
     void pad(Byte *data, int size) const
     {
@@ -20,7 +20,7 @@ struct PKCS7 {
             data[i] = extend;
     }
 
-    int unpad(Byte *block) const
+    int unpad(const Byte *block) const
     {
         Byte extend = block[BLOCK_SIZE - 1];
         if (!(extend >= 1 && extend <= BLOCK_SIZE))

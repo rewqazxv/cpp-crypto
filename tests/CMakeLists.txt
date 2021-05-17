@@ -12,23 +12,19 @@ add_executable(crypto_tests
     test-rsa.cpp
     test-aes.cpp
     test-padding.cpp
-    test-cbc-encryptor.cpp
-    test-cbc-decryptor.cpp
-)
+    test-cbc-encrypter.cpp
+    test-cbc-decrypter.cpp)
 target_link_libraries(crypto_tests
 PRIVATE
     gtest
     gtest_main
-    crypto
-)
+    crypto)
 
 find_package(benchmark REQUIRED)
 add_executable(crypto_benchmark
-    benchmark-aes128cbc.cpp
-)
+    benchmark-aes128cbc.cpp)
 target_link_libraries(crypto_benchmark
 PRIVATE
     benchmark::benchmark
     benchmark::benchmark_main
-    crypto
-)
+    crypto)

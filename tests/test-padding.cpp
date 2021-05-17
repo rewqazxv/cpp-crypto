@@ -27,7 +27,7 @@ static Bytes unpad(Method method, const Bytes &data)
 TEST(padding, padding)
 {
     padding::PKCS7 pkcs7(AES::BLOCK_SIZE);
-    for (Bytes raw : {
+    for (const Bytes &raw : {
              ""_bytes,
              "1"_bytes,
              "1234"_bytes,

@@ -16,4 +16,3 @@ BigInt rsa(const BigInt &data, const Key &key);
 } // namespace crypto::rsa
 
 #endif // RSA_H
-

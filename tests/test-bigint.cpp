@@ -42,7 +42,7 @@ TEST(BigInt, from_bytes)
         ASSERT_EQ(0, bigint::from_bytes(a, ENDIAN::LITTLE));
     }
 
-    // leading zero, big endlian
+    // leading zero, big endian
     {
         Bytes a = {0, 0, 0, 0, 33};
         ASSERT_EQ(a.size(), 5);
@@ -50,7 +50,7 @@ TEST(BigInt, from_bytes)
         ASSERT_EQ(33, bigint::from_bytes(a, ENDIAN::BIG));
     }
 
-    // leading zero, little endlian
+    // leading zero, little endian
     {
         Bytes a = {44, 0, 0, 0, 0};
         ASSERT_EQ(a.size(), 5);
@@ -108,6 +108,7 @@ TEST(BigInt, random)
         map<int, int> cnt;
         while (round--) {
             BigInt x = random::get_bigint(bit_len);
+            ASSERT_GE(x, 0);
             cnt[x.get_ui()]++;
         }
         ASSERT_EQ(cnt.size(), 1 << (bit_len - 1));
