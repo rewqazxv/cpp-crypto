@@ -10,11 +10,13 @@ add_library(crypto
     src/bigint.cpp
     src/rng.cpp
     src/rsa.cpp
-    src/aes.cpp)
+    src/aes.cpp
+)
 target_include_directories(crypto PUBLIC include)
 target_link_libraries(crypto
 PUBLIC
     gmp
-    gmpxx)
+    gmpxx
+)
 
 add_subdirectory(tests)
