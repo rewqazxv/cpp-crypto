@@ -1,25 +1,39 @@
 #include "crypto/types.h"
 
-#include "crypto/bigint.h"
-
 #include <cctype>
+#include <cstdlib>
 #include <iomanip>
+#include <algorithm>
 using namespace std;
 
 
 namespace crypto
 {
 
-Bytes operator""_bytes(const char *s, size_t sz)
+Bytes operator""_str_bytes(const char *s, size_t sz)
 {
     return Bytes(s, s + sz);
 }
 
-Bytes operator""_hex(const char *s, size_t sz)
+Bytes operator""_hex_bytes(const char *_s, size_t _sz)
 {
-    if (sz & 1)
+    string str;
+    str.resize(_sz);
+    str.erase(copy_if(_s, _s + _sz, str.begin(), [](const char ch) {
+        return !isspace(ch);
+    }), str.end());
+
+    if (str.size() & 1)
         throw std::invalid_argument("hex literal for Bytes requires even-length string");
-    return bigint::to_bytes(BigInt(s, 16));
+    Bytes res(str.size() / 2);
+    Byte buffer[3];
+    for (size_t i = 0; i < str.size(); i += 2) {
+        buffer[0] = str[i];
+        buffer[1] = str[i + 1];
+        buffer[2] = 0;
+        res[i / 2] = strtoul((char *)buffer, nullptr, 16);
+    }
+    return res;
 }
 
 ostream &operator<<(ostream &out, const Bytes &data)

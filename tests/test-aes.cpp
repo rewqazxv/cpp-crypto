@@ -18,10 +18,10 @@ TEST(aes, key_size)
 
 TEST(aes, aes)
 {
-    Bytes key = "long time no see"_bytes;
+    Bytes key = "long time no see"_str_bytes;
     AES aes(key);
 
-    Bytes raw = "test AES-128 raw"_bytes;
+    Bytes raw = "test AES-128 raw"_str_bytes;
 
     Bytes encrypted = raw;
     aes.encrypt(encrypted.data());
@@ -32,6 +32,6 @@ TEST(aes, aes)
     ASSERT_NE(raw, encrypted);
     ASSERT_EQ(raw, decrypted);
 
-    Bytes expected_encrypted = "608988e669a6f0c26ada3938020e87aa"_hex;
+    Bytes expected_encrypted = "608988e669a6f0c26ada3938020e87aa"_hex_bytes;
     ASSERT_EQ(encrypted, expected_encrypted);
 }

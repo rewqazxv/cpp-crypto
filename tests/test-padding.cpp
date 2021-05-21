@@ -28,10 +28,10 @@ TEST(padding, padding)
 {
     padding::PKCS7 pkcs7(AES::BLOCK_SIZE);
     for (const Bytes &raw : {
-             ""_bytes,
-             "1"_bytes,
-             "1234"_bytes,
-             "123456789abcdef"_bytes
+             ""_str_bytes,
+             "1"_str_bytes,
+             "1234"_str_bytes,
+             "123456789abcdef"_str_bytes
          }) {
         Bytes padded = pad(pkcs7, raw);
         Bytes expected_padded = raw;

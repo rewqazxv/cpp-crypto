@@ -14,6 +14,7 @@ add_executable(crypto_tests
     test-padding.cpp
     test-cbc-encrypter.cpp
     test-cbc-decrypter.cpp
+    test-types.cpp
 )
 target_link_libraries(crypto_tests
 PRIVATE

@@ -22,7 +22,7 @@ TEST(rsa, keygen)
 TEST(rsa, rsa)
 {
     auto keys = rsa::keygen();
-    Bytes data = "hello rsa"_bytes;
+    Bytes data = "hello rsa"_str_bytes;
 
     BigInt raw = bigint::from_bytes(data);
     BigInt encrypted = rsa::rsa(raw, keys.public_key);

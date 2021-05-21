@@ -20,8 +20,8 @@ Bytes generate_data(size_t size)
     return res;
 }
 const Bytes raw = generate_data(10000000);
-const Bytes key = "long time no see"_bytes;
-const Bytes iv = "abcdefghijklmnop"_bytes;
+const Bytes key = "long time no see"_str_bytes;
+const Bytes iv = "abcdefghijklmnop"_str_bytes;
 Bytes encrypted;
 
 
