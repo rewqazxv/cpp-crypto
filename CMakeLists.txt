@@ -2,6 +2,11 @@ cmake_minimum_required(VERSION 3.5)
 
 project(crypto LANGUAGES CXX)
 
+if(EXISTS conanbuildinfo.cmake)
+    include(conanbuildinfo.cmake)
+    conan_basic_setup()
+endif()
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
