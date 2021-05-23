@@ -79,7 +79,7 @@ TEST(aes_128_cbc_decrypt, long_separately)
 
     const Byte *input_buffer = raw.data();
     const SignedSize input_buffer_size = 67;
-    ASSERT_TRUE(bigint::is_prime(input_buffer_size));
+    ASSERT_TRUE(bigint::is_prime((int)input_buffer_size));
 
     Bytes res;
     Bytes output_buffer(aes_cbc.output_buffer_size(input_buffer_size));

@@ -24,9 +24,22 @@ Bytes get_bytes(int size)
 
 } // namespace crypto::random
 #elif defined(_WIN32)
-// todo
+#include <windows.h>
+#include <bcrypt.h>
 
+namespace crypto::random
+{
+
+Bytes get_bytes(int size)
+{
+    Bytes res(size);
+    NTSTATUS status = BCryptGenRandom(NULL, res.data(), res.size(), BCRYPT_USE_SYSTEM_PREFERRED_RNG);
+    if (status < 0)
+        throw std::runtime_error("windows BCryptGenRandom call error");
+    return res;
+}
+
+} // namespace crypto::random
 #else
-
-
+// todo
 #endif
