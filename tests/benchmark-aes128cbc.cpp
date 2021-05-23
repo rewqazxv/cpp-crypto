@@ -12,7 +12,7 @@ Bytes generate_data(size_t size)
 {
     std::random_device rd;
     std::mt19937_64 prng(rd());
-    std::uniform_int_distribution<Byte> dist;
+    std::uniform_int_distribution<int> dist(0, 0xff);
 
     Bytes res(size);
     for (size_t i = 0; i < size; i++)
