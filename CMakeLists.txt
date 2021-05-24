@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 
 project(crypto LANGUAGES CXX)
 
-if(EXISTS ${CMAKE_SOURCE_DIR}/conanbuildinfo.cmake)
+if(EXISTS ${CMAKE_CURRENT_LIST_DIR}/conanbuildinfo.cmake)
     include(conanbuildinfo.cmake)
     conan_basic_setup()
 endif()
