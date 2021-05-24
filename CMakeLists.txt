@@ -24,7 +24,7 @@ PUBLIC
     gmpxx
 )
 if(WIN32)
-target_link_libraries(crypto PRIVATE Bcrypt)
+    target_link_libraries(crypto PRIVATE Bcrypt)
 endif()
 
 add_subdirectory(tests)

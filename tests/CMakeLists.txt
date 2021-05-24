@@ -32,5 +32,5 @@ PRIVATE
     crypto
 )
 if(WIN32)
-target_link_libraries(crypto_benchmark PRIVATE Shlwapi)
+    target_link_libraries(crypto_benchmark PRIVATE Shlwapi)
 endif()
