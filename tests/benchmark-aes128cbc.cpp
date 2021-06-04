@@ -1,28 +1,13 @@
 #include <benchmark/benchmark.h>
 
-#include <random>
-#include <utility>
-#include <algorithm>
-
 #include "crypto/crypto.h"
 using namespace crypto;
 
 
-Bytes generate_data(size_t size)
-{
-    std::random_device rd;
-    std::mt19937_64 prng(rd());
-    std::uniform_int_distribution<int> dist(0, 0xff);
-
-    Bytes res(size);
-    for (size_t i = 0; i < size; i++)
-        res[i] = dist(prng);
-    return res;
-}
-const Bytes raw = generate_data(10000000);
-const Bytes key = "long time no see"_str_bytes;
-const Bytes iv = "abcdefghijklmnop"_str_bytes;
-Bytes encrypted;
+static const Bytes raw = crypto::random::get_bytes(10000000); // 10mb
+static const Bytes key = "long time no see"_str_bytes;
+static const Bytes iv = "abcdefghijklmnop"_str_bytes;
+static Bytes encrypted;
 
 
 static void aes_128_cbc_encrypt(benchmark::State &state)
@@ -66,7 +51,7 @@ static void aes_128_cbc_decrypt_separately(benchmark::State &state)
         const SignedSize input_buffer_size = 2048;
         SignedSize written = 0;
 
-        for (Byte *input_end = encrypted.data() + encrypted.size(); input_buffer < input_end; input_buffer += input_buffer_size) {
+        for (const Byte *input_end = encrypted.data() + encrypted.size(); input_buffer < input_end; input_buffer += input_buffer_size) {
             SignedSize data_size = std::min(input_buffer_size, input_end - input_buffer);
             written += aes_cbc.use(input_buffer, data_size, res.data() + written, res.size() - written);
         }

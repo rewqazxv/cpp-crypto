@@ -24,6 +24,8 @@ PRIVATE
 
 add_executable(crypto_benchmark
     benchmark-aes128cbc.cpp
+    benchmark-rsa.cpp
+    benchmark-random.cpp
 )
 target_link_libraries(crypto_benchmark
 PRIVATE
