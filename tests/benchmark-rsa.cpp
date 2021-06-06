@@ -13,7 +13,9 @@ static void rsa_encrypt(benchmark::State &state)
 {
     Bytes res;
     for (auto _ : state) {
-        res = bigint::to_bytes(rsa::rsa(bigint::from_bytes(raw), key_pair.public_key));
+        auto input = bigint::from_bytes(raw);
+        input |= BigInt(1) << (raw.size() * 8); // bytes to bigint encode
+        res = bigint::to_bytes(rsa::rsa(input, key_pair.public_key));
     }
     encrypted = std::move(res);
 }
@@ -24,7 +26,11 @@ static void rsa_decrypt(benchmark::State &state)
 {
     Bytes res;
     for (auto _ : state) {
-        res = bigint::to_bytes(rsa::rsa(bigint::from_bytes(encrypted), key_pair.private_key));
+        res = bigint::to_bytes(rsa::rsa(bigint::from_bytes(encrypted), key_pair.private_key), ENDIAN::LITTLE);
+        if (res.back() != 1)
+            throw std::runtime_error("decrypt error"); // bigint to bytes decode check
+        res.pop_back();
+        std::reverse(res.begin(), res.end());
     }
     if (res != raw)
         throw std::runtime_error("decrypted data not equal to raw data");
